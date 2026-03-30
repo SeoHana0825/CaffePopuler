@@ -1,5 +1,7 @@
 package com.example.caffepopularproject.domain.user.entity;
 
+import com.example.caffepopularproject.domain.user.dto.request.SaveUserRequest;
+import com.example.caffepopularproject.domain.user.dto.response.SaveUserResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,19 +25,17 @@ public class User {
     private String email;
 
     @Column(nullable = false, length = 100)
-    private String phone_no;
+    private String phoneNo;
 
-    public static User register (
-            String nickname,
-            String email,
-            String phone_no
-    ) {
+    @Column(nullable = false, length = 100)
+    private String password;
+
+    public static User register (SaveUserRequest request, String encodePassword) {
         User user = new User();
-
-        user.nickname = nickname;
-        user.email = email;
-        user.phone_no = phone_no;
-
+        user.nickname = request.getNickname();
+        user.email = request.getEmail();
+        user.phoneNo = request.getPhoneNo();
+        user.password = encodePassword;
         return user;
     }
 }
