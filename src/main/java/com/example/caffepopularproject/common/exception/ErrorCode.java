@@ -17,6 +17,7 @@ public enum ErrorCode {
     MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "찾을 수 없는 메뉴입니다."),
     MENU_SOLD_OUT(HttpStatus.BAD_REQUEST,"품절된 메뉴입니다."),
     MENU_DUPLICATE_NAME(HttpStatus.BAD_REQUEST,"이미 등록된 메뉴입니다."),
+    INVALID_MENU_VALUE(HttpStatus.BAD_REQUEST, "가격이나 재고가 0 미만일 수 없습니다."),
 
     // ORDER
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND,"주문을 찾을 수 없습니다."),

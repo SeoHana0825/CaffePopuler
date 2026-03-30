@@ -22,6 +22,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
     /* 회원 API
      * 1. 회원가입
      * 2. 로그인

@@ -24,14 +24,19 @@ public class Menu extends BaseDate {
     @Column(nullable = false)
     private Long price;
 
+    @Column(nullable = false)
+    private Long stock;
+
     public static Menu register (
             String name,
-            Long price
+            Long price,
+            Long stock
     ) {
         Menu menu = new Menu();
 
         menu.name = name;
         menu.price = price;
+        menu.stock = stock;
 
         return menu;
     }
