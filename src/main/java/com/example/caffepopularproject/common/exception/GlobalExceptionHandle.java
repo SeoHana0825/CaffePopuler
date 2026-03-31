@@ -3,6 +3,7 @@ package com.example.caffepopularproject.common.exception;
 import com.example.caffepopularproject.common.dto.ApiResponse;
 import com.example.caffepopularproject.common.dto.ExceptionResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
@@ -11,19 +12,23 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j(topic = "GlobalExceptionHandle")
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandle {
 
     @ExceptionHandler(ServiceException.class)
-    public ResponseEntity<ApiResponse<ExceptionResponse>> handlerServiceException(ServiceException exception, HttpServletRequest request) {
+    public ResponseEntity<ApiResponse<ExceptionResponse>> handleServiceException(ServiceException exception, HttpServletRequest request) {
+
+        HttpStatus status = exception.getErrorCode().getStatus();
+
         ExceptionResponse response = ExceptionResponse
                 .from(
-                        exception.getStatus().value(),
+                        status.value(),
                         exception.getMessage(),
                         request.getRequestURI()
                 );
-        return ResponseEntity.status(exception.getStatus())
-                .body(ApiResponse.fail(exception.getStatus(),response));
+        return ResponseEntity.status(status)
+                .body(ApiResponse.fail(status,response));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -43,6 +48,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(PessimisticLockingFailureException.class)
     public ResponseEntity<ApiResponse<ExceptionResponse>> handlerPessimisticLockingFailureException(PessimisticLockingFailureException e, HttpServletRequest request) {
+        log.warn("동시성 충돌 발생 : {}", request.getRequestURI());
+
         ExceptionResponse response = ExceptionResponse
                 .from(
                         HttpStatus.CONFLICT.value(),

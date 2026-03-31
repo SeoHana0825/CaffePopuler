@@ -1,5 +1,6 @@
 package com.example.caffepopularproject.domain.user.controller;
 
+import com.example.caffepopularproject.common.dto.ApiResponse;
 import com.example.caffepopularproject.domain.user.dto.request.LoginUserRequest;
 import com.example.caffepopularproject.domain.user.dto.request.SaveUserRequest;
 import com.example.caffepopularproject.domain.user.dto.response.LoginUserResponse;
@@ -24,19 +25,19 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<SaveUserResponse> signup (
+    public ResponseEntity<ApiResponse<SaveUserResponse>> signup (
             @RequestBody SaveUserRequest request
             ) {
         SaveUserResponse response = userService.signup(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.created(ApiResponse.created(response));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginUserResponse> login (
+    public ResponseEntity<ApiResponse<LoginUserResponse>> login (
             @Valid @RequestBody LoginUserRequest request
             ) {
         LoginUserResponse response = userService.login(request);
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(ApiResponse.ok(response));
     }
 
     @PostMapping("/logout")

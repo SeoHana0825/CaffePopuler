@@ -15,7 +15,7 @@ public class PointService {
     private final PointRepository pointRepository;
 
     /* 포인트 API
-    * 포인트 적립 : 관리자가 유저에게 포인트를 충전해 줌
+    * 포인트 적립 : 관리자가 유저에게 포인트를 충전해줄 때 사용
     */
 
     @Transactional
