@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface MenuRepository extends JpaRepository <Menu, Long> {
 
-    List<Menu> findTop3ByOrderCountDesc();
+    List<Menu> findTop3ByOrderByOrderCountDesc();
 }

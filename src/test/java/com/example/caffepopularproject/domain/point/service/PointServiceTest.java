@@ -40,7 +40,7 @@ public class PointServiceTest {
 
         Point point = Point.createWallet(testUser);
 
-        given(pointRepository.findByUserIdWithPessimisticLocke(anyLong()))
+        given(pointRepository.findByUserIdWithPessimisticLock(anyLong()))
                 .willReturn(Optional.of(point));
 
         // when

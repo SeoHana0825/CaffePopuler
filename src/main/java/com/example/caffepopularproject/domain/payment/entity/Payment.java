@@ -1,5 +1,6 @@
 package com.example.caffepopularproject.domain.payment.entity;
 
+import com.example.caffepopularproject.domain.order.entity.Order;
 import com.example.caffepopularproject.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -18,20 +19,31 @@ public class Payment {
     private Long id;
 
     @Column(nullable = false)
-    private Long total_price;
+    private Long amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    public static Payment register (
-            Long total_price,
-            User user
-    ) {
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name = "order_id", unique = true)
+    private Order order;
+
+    public static Payment register (Order order) {
         Payment payment = new Payment();
 
-        payment.total_price = total_price;
-        payment.user = user;
+        payment.amount = order.getTotalAmount();
+        payment.user = order.getUser();
+        payment.order = order;
+
+        return payment;
+    }
+
+    public static Payment createPayment (Order order) {
+        Payment payment = new Payment();
+
+        payment.amount = order.getTotalAmount();
+        payment.user = order.getUser();
 
         return payment;
     }

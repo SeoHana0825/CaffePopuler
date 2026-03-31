@@ -67,7 +67,7 @@ public class MenuService {
     @Transactional(readOnly = true)
     public List<MenuResponse> getPopularMenus() {
 
-        List<Menu> popularMenus = menuRepository.findTop3ByOrderCountDesc();
+        List<Menu> popularMenus = menuRepository.findTop3ByOrderByOrderCountDesc();
 
         return popularMenus.stream()
                 .map(MenuResponse::from)

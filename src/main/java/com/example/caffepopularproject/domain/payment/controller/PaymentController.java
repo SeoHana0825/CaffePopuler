@@ -1,12 +1,39 @@
 package com.example.caffepopularproject.domain.payment.controller;
 
+import com.example.caffepopularproject.common.dto.ApiResponse;
+import com.example.caffepopularproject.domain.payment.dto.response.PaymentDetailResponse;
+import com.example.caffepopularproject.domain.payment.service.PaymentService;
+import com.example.caffepopularproject.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/payments")
 public class PaymentController {
 
+    private final PaymentService paymentService;
+
+    // 결제 명세서 조회
+    @GetMapping("/{paymentId}")
+    public ResponseEntity<ApiResponse<PaymentDetailResponse>> getPaymentDetail (
+            @AuthenticationPrincipal User user,
+            @PathVariable Long paymentId
+    ) {
+        Long userId = user.getId();
+        PaymentDetailResponse response = paymentService.getPaymentDetail(paymentId, userId);
+        return ResponseEntity.ok(ApiResponse.ok(response));
+    }
+
+    // 결제 진행
+    @PostMapping("/{orderId]")
+    public ResponseEntity<ApiResponse<Void>> payWithPoint (
+            @PathVariable Long orderId
+    ) {
+        paymentService.payWithPoint(orderId);
+
+        return ResponseEntity.ok(ApiResponse.ok(null));
+    }
 }

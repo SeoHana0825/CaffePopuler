@@ -21,7 +21,7 @@ public class PointService {
     @Transactional
     public void chargePoint (Long userId, Long amount) {
 
-        Point point = pointRepository.findByUserIdWithPessimisticLocke(userId)
+        Point point = pointRepository.findByUserIdWithPessimisticLock(userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
         // JPA 더티 체킹으로 DB 저장
