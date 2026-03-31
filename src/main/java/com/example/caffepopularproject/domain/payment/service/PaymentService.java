@@ -29,7 +29,7 @@ public class PaymentService {
 
     @Transactional(readOnly = true)
     public PaymentDetailResponse getPaymentDetail(Long paymentId, Long userId) {
-        Payment payment = paymentRepository.findByDbPaymentIdAndOrderUserId(paymentId, userId)
+        Payment payment = paymentRepository.findByIdAndUserId(paymentId, userId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.PAYMENT_NOT_FOUND));
 
         return PaymentDetailResponse.from(payment);
@@ -39,7 +39,7 @@ public class PaymentService {
     public void payWithPoint (Long orderId) {
 
         // 주문 조회
-        Order order = orderRepository.findByOrderId(orderId)
+        Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ServiceException(ErrorCode.ORDER_NOT_FOUND));
 
         // 이미 결제된 주문인지 확인 (중복 결제 확인)

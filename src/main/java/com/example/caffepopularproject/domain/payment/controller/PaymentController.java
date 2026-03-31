@@ -28,7 +28,7 @@ public class PaymentController {
     }
 
     // 결제 진행
-    @PostMapping("/{orderId]")
+    @PostMapping("/{orderId}")
     public ResponseEntity<ApiResponse<Void>> payWithPoint (
             @PathVariable Long orderId
     ) {

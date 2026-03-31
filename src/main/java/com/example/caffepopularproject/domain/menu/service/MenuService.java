@@ -64,14 +64,14 @@ public class MenuService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public List<MenuResponse> getPopularMenus() {
-
-        List<Menu> popularMenus = menuRepository.findTop3ByOrderByOrderCountDesc();
-
-        return popularMenus.stream()
-                .map(MenuResponse::from)
-                .collect(Collectors.toList());
-    }
+//    @Transactional(readOnly = true)
+//    public List<MenuResponse> getPopularMenus() {
+//
+//        List<Menu> popularMenus = menuRepository.findTop3ByOrderByOrderCountDesc();
+//
+//        return popularMenus.stream()
+//                .map(MenuResponse::from)
+//                .collect(Collectors.toList());
+//    }
 
 }

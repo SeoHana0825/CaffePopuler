@@ -33,18 +33,21 @@ public class PointServiceConcurrencyTest {
 
     @BeforeEach
     void setUp() {
-        User user = new User(
-                1L,
-                "제시카 알바몬",
-                "test@test.com",
-                "010-0000-0000",
-                "12345678"
-        );
+            pointRepository.deleteAll();
+            userRepository.deleteAll();
 
-        savedUser = userRepository.save(user);
+            User user = new User(
+                    null,
+                    "제시카 알바몬",
+                    "test@test.com",
+                    "010-0000-0000",
+                    "12345678"
+            );
 
-        Point point = Point.createWallet(savedUser);
-        pointRepository.save(point);
+            savedUser = userRepository.save(user);
+
+            Point point = Point.createWallet(savedUser);
+            pointRepository.save(point);
     }
 
     @AfterEach
@@ -84,7 +87,7 @@ public class PointServiceConcurrencyTest {
 
         // then
         // 100원씩 100번 충전, DB에서 다시 꺼낸 잔액은 무조건 100,000원이어야 한다
-        Point findPoint = pointRepository.findByUserIdWithPessimisticLock(savedUser.getId()).orElseThrow();
+        Point findPoint = pointRepository.findByUserId(savedUser.getId()).orElseThrow();
 
         // 비관적 락이 없었을 경우 손실 발생 - 랜덤 금액 찍힘
         assertThat(findPoint.getCurrentlyPoint()).isEqualTo(100000L);

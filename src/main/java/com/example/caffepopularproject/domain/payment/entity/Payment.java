@@ -25,7 +25,7 @@ public class Payment {
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "order_id", unique = true)
     private Order order;
 
