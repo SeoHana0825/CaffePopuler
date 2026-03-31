@@ -1,5 +1,30 @@
 spring:
-  web:
-    resources:
-      chain:
-        cache: false
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  application:
+    name: caffePopularProject
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/mySQL-local
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  cache:
+    caffeine:
+      spec:Size=100,expireAfterWrite=10s
+    type: caffeine
+
+jwt:
+  secret:
+    key:
