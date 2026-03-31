@@ -27,6 +27,19 @@ public class MenuServiceTest {
     private MenuService menuService;
 
     @Test
+    @DisplayName("메뉴 생성 성공")
+    void createMene_Success() {
+
+        // given
+        MenuCreateRequest request = new MenuCreateRequest(
+                "아메리카노",
+                2000L,
+                2L
+        );
+    }
+
+
+    @Test
     @DisplayName("메뉴 생성 실패 - 가격이 음수일 경우 예외 발생")
     void createMenu_Fail_NegativePrice() {
 

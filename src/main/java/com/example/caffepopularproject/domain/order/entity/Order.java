@@ -1,13 +1,17 @@
 package com.example.caffepopularproject.domain.order.entity;
 
 import com.example.caffepopularproject.common.entity.BaseDate;
-import com.example.caffepopularproject.domain.menu.entity.Menu;
 import com.example.caffepopularproject.domain.payment.entity.Payment;
+import com.example.caffepopularproject.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -21,37 +25,48 @@ public class Order extends BaseDate {
     private Long id;
 
     @Column(nullable = false)
-    private Long order_price;
+    private Long totalAmount;
+
+    @Column(nullable = false, unique = true, length = 225)
+    private String orderNo;
 
     @Column(nullable = false)
-    private Long total_amount;
-
-    @Column(nullable = false, length = 225)
-    private String order_no;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "menu_id")
-    private Menu menu;
+    @JoinColumn(nullable = false, name = "user_id")
+    private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItemList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "payment_id")
     private Payment payment;
 
     public static Order register (
-            Long order_price,
-            Long total_amount,
-            String order_no,
-            Menu menu,
-            Payment payment
+            String orderNo,
+            User user
     ) {
         Order order = new Order();
 
-        order.order_price = order_price;
-        order.total_amount = total_amount;
-        order.order_no = order_no;
-        order.menu = menu;
-        order.payment = payment;
+        order.totalAmount = 0L;
+        order.orderNo = orderNo != null ? orderNo : UUID.randomUUID().toString();
+        order.status = OrderStatus.CART;
+        order.user = user;
 
         return order;
+    }
+
+    // 주문 항목 추가
+    public void addOrderItem (OrderItem orderItem) {
+        this.orderItemList.add(orderItem);
+        orderItem.assignOrder(this);
+        this.totalAmount += (orderItem.getOrderPriceSnap() * orderItem.getQuantity());
+    }
+
+    public void updateStatus (OrderStatus status) {
+        this.status = status;
     }
 }

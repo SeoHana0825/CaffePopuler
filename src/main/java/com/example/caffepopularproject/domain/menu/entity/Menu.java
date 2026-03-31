@@ -3,14 +3,12 @@ package com.example.caffepopularproject.domain.menu.entity;
 import com.example.caffepopularproject.common.entity.BaseDate;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
 @Table(name = "menus")
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 
 public class Menu extends BaseDate {

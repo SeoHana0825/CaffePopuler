@@ -21,6 +21,7 @@ public enum ErrorCode {
 
     // ORDER
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND,"주문을 찾을 수 없습니다."),
+    ORDER_DUPLICATE_NAME(HttpStatus.BAD_REQUEST,"이미 등록된 주문입니다."),
     ORDER_CANCEL_FORBIDDEN(HttpStatus.FORBIDDEN,"해당 아이디의 주문만 취소가 가능합니다."),
     ORDER_BELOW_MINIMUM(HttpStatus.BAD_REQUEST,"최소 주문금액을 충족하지 않습니다."),
     ORDER_NOT_CHANGEABLE(HttpStatus.BAD_REQUEST,"이미 완료되거나 취소된 주문입니다."),
