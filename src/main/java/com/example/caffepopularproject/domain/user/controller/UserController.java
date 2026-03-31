@@ -29,7 +29,7 @@ public class UserController {
             @RequestBody SaveUserRequest request
             ) {
         SaveUserResponse response = userService.signup(request);
-        return ResponseEntity.created(ApiResponse.created(response));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.created(response));
     }
 
     @PostMapping("/login")
