@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/signup","/api/login", "/api/menus","/api/orders","/api/test/**").permitAll()
+                        .requestMatchers("/api/signup","/api/login","/api/test/**").permitAll()
                         .anyRequest().permitAll()
                 )
                 .build();

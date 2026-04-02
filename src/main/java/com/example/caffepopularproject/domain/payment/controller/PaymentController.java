@@ -1,12 +1,11 @@
 package com.example.caffepopularproject.domain.payment.controller;
 
 import com.example.caffepopularproject.common.dto.ApiResponse;
-import com.example.caffepopularproject.domain.payment.dto.response.PaymentDetailResponse;
+import com.example.caffepopularproject.domain.payment.dto.PaymentDetailResponse;
 import com.example.caffepopularproject.domain.payment.service.PaymentService;
 import com.example.caffepopularproject.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,7 +18,7 @@ public class PaymentController {
     // 결제 명세서 조회
     @GetMapping("/{paymentId}")
     public ResponseEntity<ApiResponse<PaymentDetailResponse>> getPaymentDetail (
-            @AuthenticationPrincipal User user,
+            @SessionAttribute(name = "LOGIN_USER_ID", required = false) User user,
             @PathVariable Long paymentId
     ) {
         Long userId = user.getId();
@@ -30,9 +29,12 @@ public class PaymentController {
     // 결제 진행
     @PostMapping("/{orderId}")
     public ResponseEntity<ApiResponse<Void>> payWithPoint (
+            @SessionAttribute(name = "LOGIN_USER_ID", required = false) User user,
             @PathVariable Long orderId
     ) {
-        paymentService.payWithPoint(orderId);
+        Long userId = user.getId();
+
+        paymentService.payWithPoint(orderId, userId);
 
         return ResponseEntity.ok(ApiResponse.ok(null));
     }

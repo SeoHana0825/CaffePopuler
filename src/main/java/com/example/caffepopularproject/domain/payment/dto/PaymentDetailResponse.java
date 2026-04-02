@@ -1,4 +1,4 @@
-package com.example.caffepopularproject.domain.payment.dto.response;
+package com.example.caffepopularproject.domain.payment.dto;
 
 import com.example.caffepopularproject.domain.payment.entity.Payment;
 import lombok.AccessLevel;

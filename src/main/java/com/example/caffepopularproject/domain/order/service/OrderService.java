@@ -10,7 +10,6 @@ import com.example.caffepopularproject.domain.order.dto.response.OrderResponse;
 import com.example.caffepopularproject.domain.order.entity.Order;
 import com.example.caffepopularproject.domain.order.entity.OrderItem;
 import com.example.caffepopularproject.domain.order.repository.OrderRepository;
-import com.example.caffepopularproject.domain.point.repository.PointRepository;
 import com.example.caffepopularproject.domain.user.entity.User;
 import com.example.caffepopularproject.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,6 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final MenuRepository menuRepository;
-    private final PointRepository pointRepository;
 
     /* 주문 API
      * 1. 주문 생성

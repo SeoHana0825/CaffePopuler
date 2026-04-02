@@ -29,19 +29,10 @@ public class Payment {
     @JoinColumn(nullable = false, name = "order_id", unique = true)
     private Order order;
 
-    public static Payment register (Order order) {
-        Payment payment = new Payment();
-
-        payment.amount = order.getTotalAmount();
-        payment.user = order.getUser();
-        payment.order = order;
-
-        return payment;
-    }
-
     public static Payment createPayment (Order order) {
         Payment payment = new Payment();
 
+        payment.order = order;
         payment.amount = order.getTotalAmount();
         payment.user = order.getUser();
 
