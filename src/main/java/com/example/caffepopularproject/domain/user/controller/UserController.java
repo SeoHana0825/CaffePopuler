@@ -34,9 +34,15 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginUserResponse>> login (
-            @Valid @RequestBody LoginUserRequest request
+            @Valid @RequestBody LoginUserRequest request,
+            HttpServletRequest httpServletRequest
             ) {
         LoginUserResponse response = userService.login(request);
+        HttpSession session = httpServletRequest.getSession(true);
+
+        session.setAttribute("LOGIN_USER_ID", response.getId());
+
+        session.setMaxInactiveInterval(1800);
         return ResponseEntity.ok(ApiResponse.ok(response));
     }
 
