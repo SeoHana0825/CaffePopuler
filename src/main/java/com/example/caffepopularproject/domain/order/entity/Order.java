@@ -42,7 +42,7 @@ public class Order extends BaseDate {
     private List<OrderItem> orderItemList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name = "payment_id")
+    @JoinColumn(name = "payment_id")
     private Payment payment;
 
     public static Order register (

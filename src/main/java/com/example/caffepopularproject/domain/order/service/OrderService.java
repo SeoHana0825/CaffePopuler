@@ -31,15 +31,17 @@ public class OrderService {
 
     @Transactional
     public OrderResponse createOrder(OrderCreateRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ServiceException(ErrorCode.USER_NOT_FOUND));
 
+        String generatedOrderNo = java.util.UUID.randomUUID().toString();
+
         // 따닥 이슈 이중 방어
-        if (orderRepository.existsByOrderNo(request.getOrderNo())) {
+        if (orderRepository.existsByOrderNo(generatedOrderNo)) {
             throw new ServiceException(ErrorCode.ORDER_DUPLICATE_NAME);
         }
 
-        Order order = Order.register(request.getOrderNo(), user);
+        Order order = Order.register(generatedOrderNo, user);
 
         for (OrderItemRequest itemRequest : request.getItems()) {
             Menu menu = menuRepository.findById(itemRequest.getMenuId())

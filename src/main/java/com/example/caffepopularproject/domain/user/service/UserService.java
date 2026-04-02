@@ -2,6 +2,8 @@ package com.example.caffepopularproject.domain.user.service;
 
 import com.example.caffepopularproject.common.exception.ErrorCode;
 import com.example.caffepopularproject.common.exception.ServiceException;
+import com.example.caffepopularproject.domain.point.entity.Point;
+import com.example.caffepopularproject.domain.point.repository.PointRepository;
 import com.example.caffepopularproject.domain.user.dto.request.LoginUserRequest;
 import com.example.caffepopularproject.domain.user.dto.request.SaveUserRequest;
 import com.example.caffepopularproject.domain.user.dto.response.LoginUserResponse;
@@ -20,6 +22,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PointRepository pointRepository;
 
     /* 회원 API
      * 1. 회원가입
@@ -38,6 +41,9 @@ public class UserService {
         String encodePassword = passwordEncoder.encode(request.getPassword());
         User user = User.register(request, encodePassword);
         userRepository.save(user);
+
+        Point point = Point.createWallet(user);
+        pointRepository.save(point);
 
         return SaveUserResponse.from(user);
     }

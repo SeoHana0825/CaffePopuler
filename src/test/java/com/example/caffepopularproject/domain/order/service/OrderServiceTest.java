@@ -52,7 +52,7 @@ public class OrderServiceTest {
         String uuid = UUID.randomUUID().toString();
         OrderCreateRequest request = new OrderCreateRequest(
                 uuid,
-                "test@test.com",
+                1L,
                 List.of(
                         new OrderItemRequest(1L, 2L),
                         new OrderItemRequest(2L, 1L)
@@ -110,7 +110,7 @@ public class OrderServiceTest {
         String uuid = "duplicate-uuid-1234";
         OrderCreateRequest request = new OrderCreateRequest(
                 uuid,
-                "test@test.com",
+                1L,
                 List.of(new OrderItemRequest(1L, 1L))
         );
 

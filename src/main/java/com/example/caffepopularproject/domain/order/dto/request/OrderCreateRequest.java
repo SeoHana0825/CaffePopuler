@@ -11,10 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderCreateRequest {
 
-    @NotBlank(message = "주문번호는 필수입니다.")
     private String orderNo;
 
-    private String email;
+    private Long userId;
 
     private List<OrderItemRequest> items;
 }
