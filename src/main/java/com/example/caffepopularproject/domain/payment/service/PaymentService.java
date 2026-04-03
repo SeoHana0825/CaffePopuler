@@ -26,17 +26,9 @@ public class PaymentService {
     private final ApplicationEventPublisher eventPublisher;
 
     /* 결제 API
-     * 1. 결제 상제 조회
-     * 2. 포인트 결제 (주문 조회 -> 중복 방지 -> 차감 -> 영수증 발행 -> 상태 변경)
+     * 1. 포인트 결제 (주문 조회 -> 중복 방지 -> 차감 -> 영수증 발행 -> 상태 변경)
+     * 2. 결제 상제 조회
     */
-
-    @Transactional(readOnly = true)
-    public PaymentDetailResponse getPaymentDetail(Long paymentId, Long userId) {
-        Payment payment = paymentRepository.findByIdAndUserId(paymentId, userId)
-                .orElseThrow(() -> new ServiceException(ErrorCode.PAYMENT_NOT_FOUND));
-
-        return PaymentDetailResponse.from(payment);
-    }
 
     @Transactional
     public void payWithPoint (Long orderId, Long userId) {
@@ -67,5 +59,13 @@ public class PaymentService {
         // 무사히 결제가 끝난 후 이벤트 던지로 결제 종료 - 비동기 적용
         OrderCompletedEvent event = OrderCompletedEvent.from(payment);
         eventPublisher.publishEvent(event);
+    }
+
+    @Transactional(readOnly = true)
+    public PaymentDetailResponse getPaymentDetail(Long paymentId, Long userId) {
+        Payment payment = paymentRepository.findByIdAndUserId(paymentId, userId)
+                .orElseThrow(() -> new ServiceException(ErrorCode.PAYMENT_NOT_FOUND));
+
+        return PaymentDetailResponse.from(payment);
     }
 }
