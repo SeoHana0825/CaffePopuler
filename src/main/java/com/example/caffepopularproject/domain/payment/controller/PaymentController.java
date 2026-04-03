@@ -15,17 +15,6 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-    // 결제 명세서 조회
-    @GetMapping("/{paymentId}")
-    public ResponseEntity<ApiResponse<PaymentDetailResponse>> getPaymentDetail (
-            @SessionAttribute(name = "LOGIN_USER_ID", required = false) User user,
-            @PathVariable Long paymentId
-    ) {
-        Long userId = user.getId();
-        PaymentDetailResponse response = paymentService.getPaymentDetail(paymentId, userId);
-        return ResponseEntity.ok(ApiResponse.ok(response));
-    }
-
     // 결제 진행
     @PostMapping("/{orderId}")
     public ResponseEntity<ApiResponse<Void>> payWithPoint (
@@ -37,5 +26,16 @@ public class PaymentController {
         paymentService.payWithPoint(orderId, userId);
 
         return ResponseEntity.ok(ApiResponse.ok(null));
+    }
+
+    // 결제 명세서 조회
+    @GetMapping("/{paymentId}")
+    public ResponseEntity<ApiResponse<PaymentDetailResponse>> getPaymentDetail (
+            @SessionAttribute(name = "LOGIN_USER_ID", required = false) User user,
+            @PathVariable Long paymentId
+    ) {
+        Long userId = user.getId();
+        PaymentDetailResponse response = paymentService.getPaymentDetail(paymentId, userId);
+        return ResponseEntity.ok(ApiResponse.ok(response));
     }
 }

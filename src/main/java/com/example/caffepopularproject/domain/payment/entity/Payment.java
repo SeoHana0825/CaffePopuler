@@ -21,11 +21,11 @@ public class Payment {
     @Column(nullable = false)
     private Long amount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "order_id", unique = true)
     private Order order;
 
